@@ -3,6 +3,7 @@ const db = require("./db"); //koneksi MYSQL
 const app = express();
 const PORT = 3000;
 
+// Middleware supaya bisa baca JSON dari body request
 app.use(express.json());
 
 // CREATE (POST buku baru)
@@ -38,7 +39,7 @@ app.put("/books/:id", (req, res) => {
   const { title, author } = req.body;
   db.query("UPDATE books SET title = ?, author = ? WHERE id = ?", [title, author, req.params.id], (err, result) => {
     if (err) throw err;
-    res.json({ message: "Buku berhasil diperbarui" });
+    res.json({ message: "Book updated" });
   });
 });
 
@@ -46,10 +47,10 @@ app.put("/books/:id", (req, res) => {
 app.delete("/books/:id", (req, res) => {
   db.query("DELETE FROM books WHERE id = ?", [req.params.id], (err, result) => {
     if (err) throw err;
-    res.json({ message: "Buku berhasil dihapus" });
+    res.json({ message: "Book deleted" });
   });
 });
 
 app.listen(PORT, () => {
-  console.log("Server jalan di http://localhost:${PORT}");
+  console.log('Server jalan di http://localhost:${PORT}');
 });
